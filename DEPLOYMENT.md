@@ -61,6 +61,29 @@ You need to deploy:
 
 3. **Copy the backend URL** after deployment
 
+### Auto-Deploy is Enabled by Default! 🎉
+
+When you connect your GitHub repository to Render, **automatic deployments are enabled by default**. This means:
+
+- ✅ Every push to your connected branch (usually `main` or `master`) will automatically trigger a new deployment
+- ✅ You don't need to manually deploy after pushing to GitHub
+- ✅ Render will build and deploy your changes automatically
+
+**To verify auto-deploy is enabled:**
+1. Go to your Render dashboard
+2. Click on your `codecollab-backend` service
+3. Go to the **Settings** tab
+4. Under **Build & Deploy**, check that **Auto-Deploy** is set to "Yes"
+
+**If auto-deploy is disabled:**
+1. In the same Settings tab
+2. Change **Auto-Deploy** to "Yes"
+3. Make sure the **Branch** matches your default branch (usually `main` or `master`)
+
+**Note:** If you updated `render.yaml` with auto-deploy settings, you may need to:
+- Re-apply the Blueprint (if using Blueprint)
+- Or manually update the service settings in the Render dashboard
+
 ---
 
 ## Step 2: Deploy Frontend to Netlify

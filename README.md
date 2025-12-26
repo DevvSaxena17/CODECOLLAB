@@ -2,6 +2,10 @@
 
 A real-time collaborative code editor platform built with React, TypeScript, and WebSockets. All data is stored locally in the browser using localStorage.
 
+## 🌐 Live Demo
+
+**Visit the live website:** [https://codecollaab.netlify.app/](https://codecollaab.netlify.app/)
+
 ## Features
 
 - 🔐 **Authentication** - Email/password based authentication (stored locally)
@@ -68,6 +72,9 @@ The app will be available at `http://localhost:5173`
 
 ## Usage
 
+**🌐 [Try it live](https://codecollaab.netlify.app/)** - Visit the deployed application
+
+Or run locally:
 1. **Sign Up** - Create a new account (stored locally)
 2. **Create Project** - Click "Create New Project" on the dashboard
 3. **Share** - Use the "Share" button to copy a link and invite collaborators
@@ -82,6 +89,13 @@ The app will be available at `http://localhost:5173`
 - **Storage:** Browser localStorage (no external database)
 - **Authentication:** Local password-based auth
 - **Real-time:** Socket.io WebSockets
+
+## Deployment
+
+- **Frontend:** Deployed on [Netlify](https://netlify.com) - [Live Site](https://codecollaab.netlify.app/)
+- **Backend:** Deployed on [Render](https://render.com) for code execution and WebSocket connections
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
 
 ## Notes
 
