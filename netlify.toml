@@ -1,0 +1,24 @@
+# Netlify configuration file
+# This helps Netlify build and deploy your app correctly
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Redirect all routes to index.html for React Router
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# IMPORTANT: Environment variables MUST be set in Netlify dashboard
+# Go to: Site Settings → Environment Variables → Add variable
+# 
+# Required variables:
+#   VITE_SOCKET_URL = https://your-backend-url.onrender.com (or your backend URL)
+#   VITE_API_URL = https://your-backend-url.onrender.com (optional, defaults to VITE_SOCKET_URL)
+#
+# NOTE: The backend server (server.js) cannot run on Netlify.
+# You must deploy it separately to a service like Render, Railway, or Heroku.
+# See DEPLOYMENT.md for detailed instructions.
+
