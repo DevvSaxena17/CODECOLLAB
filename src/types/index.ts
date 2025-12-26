@@ -97,7 +97,7 @@ export interface PullRequest {
   merged_by?: string;
 }
 
-export type Language = 'python' | 'c' | 'cpp' | 'css' | 'javascript' | 'java';
+export type Language = 'python' | 'c' | 'cpp' | 'css' | 'javascript' | 'java' | 'typescript' | 'go' | 'rust' | 'php' | 'ruby' | 'html';
 
 // Project Access & Member Management
 export interface ProjectAccess {

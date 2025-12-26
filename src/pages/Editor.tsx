@@ -43,7 +43,7 @@ import { File as FileType, Project, Language, Message, ChangeRequest, Branch, Co
 import { 
   Plus, Trash2, Edit2, Check, X, Play, Share2, 
   ArrowLeft, LogOut, Send, File, GitBranch, GitCommit, GitPullRequest,
-  Shield, CheckCircle, XCircle, Clock, GitMerge, Users
+  Shield, CheckCircle, XCircle, Clock, GitMerge, Users, Copy, Loader2
 } from 'lucide-react';
 
 export default function EditorPage() {
@@ -56,6 +56,8 @@ export default function EditorPage() {
   const [activeFile, setActiveFile] = useState<FileType | null>(null);
   const [language, setLanguage] = useState<Language>('python');
   const [output, setOutput] = useState('');
+  const [isRunning, setIsRunning] = useState(false);
+  const [executionTime, setExecutionTime] = useState<number | null>(null);
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
   const [chatInput, setChatInput] = useState('');
   const [newFileName, setNewFileName] = useState('');
@@ -403,8 +405,14 @@ export default function EditorPage() {
     else if (ext === 'c') setLanguage('c');
     else if (ext === 'cpp' || ext === 'cxx' || ext === 'cc') setLanguage('cpp');
     else if (ext === 'css') setLanguage('css');
-    else if (ext === 'js' || ext === 'jsx' || ext === 'ts' || ext === 'tsx') setLanguage('javascript');
+    else if (ext === 'js' || ext === 'jsx') setLanguage('javascript');
+    else if (ext === 'ts' || ext === 'tsx') setLanguage('typescript');
     else if (ext === 'java') setLanguage('java');
+    else if (ext === 'go') setLanguage('go');
+    else if (ext === 'rs') setLanguage('rust');
+    else if (ext === 'php') setLanguage('php');
+    else if (ext === 'rb') setLanguage('ruby');
+    else if (ext === 'html' || ext === 'htm') setLanguage('html');
   };
 
   const getFileExtension = (lang: Language): string => {
@@ -415,6 +423,12 @@ export default function EditorPage() {
       case 'css': return 'css';
       case 'javascript': return 'js';
       case 'java': return 'java';
+      case 'typescript': return 'ts';
+      case 'go': return 'go';
+      case 'rust': return 'rs';
+      case 'php': return 'php';
+      case 'ruby': return 'rb';
+      case 'html': return 'html';
       default: return 'txt';
     }
   };
@@ -678,9 +692,12 @@ export default function EditorPage() {
   };
 
   const handleRunCode = async () => {
-    if (!activeFile) return;
+    if (!activeFile || isRunning) return;
 
+    setIsRunning(true);
     setOutput('Running...\n');
+    setExecutionTime(null);
+    const startTime = Date.now();
 
     try {
       const apiUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_SOCKET_URL || 'http://localhost:3001';
@@ -693,6 +710,10 @@ export default function EditorPage() {
         }),
       });
 
+      const endTime = Date.now();
+      const elapsed = ((endTime - startTime) / 1000).toFixed(2);
+      setExecutionTime(parseFloat(elapsed));
+
       if (!response.ok) {
         
         let errorMessage = `Server error: ${response.status}`;
@@ -704,12 +725,17 @@ export default function EditorPage() {
           errorMessage = response.statusText || errorMessage;
         }
         setOutput(`Error: ${errorMessage}`);
+        setIsRunning(false);
         return;
       }
 
       const data = await response.json();
       setOutput(data.output || data.error || 'No output');
     } catch (error) {
+      const endTime = Date.now();
+      const elapsed = ((endTime - startTime) / 1000).toFixed(2);
+      setExecutionTime(parseFloat(elapsed));
+      
       if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
         setOutput(
           'Error: Backend server is not running!\n\n' +
@@ -720,6 +746,23 @@ export default function EditorPage() {
       } else {
         setOutput(`Error: ${error instanceof Error ? error.message : 'Failed to execute code'}`);
       }
+    } finally {
+      setIsRunning(false);
+    }
+  };
+
+  const handleClearOutput = () => {
+    setOutput('');
+    setExecutionTime(null);
+  };
+
+  const handleCopyOutput = async () => {
+    if (!output) return;
+    try {
+      await navigator.clipboard.writeText(output);
+      // You could add a toast notification here
+    } catch (err) {
+      console.error('Failed to copy output:', err);
     }
   };
 
@@ -777,7 +820,13 @@ export default function EditorPage() {
     if (ext === 'cpp') return '#include <iostream>\n\nint main() {\n    std::cout << "Hello, CodeCollab!" << std::endl;\n    return 0;\n}';
     if (ext === 'css') return '/* Welcome to CodeCollab! */\nbody {\n    margin: 0;\n    padding: 20px;\n    font-family: Arial, sans-serif;\n    background-color: #1a1a1a;\n    color: #ffffff;\n}';
     if (ext === 'js') return 'console.log("Hello, CodeCollab!");';
+    if (ext === 'ts') return 'console.log("Hello, CodeCollab!");';
     if (ext === 'java') return 'public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, CodeCollab!");\n    }\n}';
+    if (ext === 'go') return 'package main\n\nimport "fmt"\n\nfunc main() {\n    fmt.Println("Hello, CodeCollab!")\n}';
+    if (ext === 'rs') return 'fn main() {\n    println!("Hello, CodeCollab!");\n}';
+    if (ext === 'php') return '<?php\necho "Hello, CodeCollab!\\n";\n?>';
+    if (ext === 'rb') return 'puts "Hello, CodeCollab!"';
+    if (ext === 'html' || ext === 'htm') return '<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>CodeCollab</title>\n</head>\n<body>\n    <h1>Hello, CodeCollab!</h1>\n</body>\n</html>';
     return '';
   };
 
@@ -895,20 +944,36 @@ export default function EditorPage() {
             onChange={(e) => handleLanguageChange(e.target.value as Language)}
             className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-yellow-500"
           >
-            <option value="python">Python</option>
-            <option value="c">C</option>
-            <option value="cpp">C++</option>
-            <option value="css">CSS</option>
             <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
             <option value="java">Java</option>
+            <option value="typescript">TypeScript</option>
+            <option value="html">HTML</option>
+            <option value="css">CSS</option>
+            <option value="php">PHP</option>
+            <option value="cpp">C++</option>
+            <option value="c">C</option>
+            <option value="go">Go</option>
+            <option value="rust">Rust</option>
+            <option value="ruby">Ruby</option>
           </select>
 
           <button
             onClick={handleRunCode}
-            className="px-4 py-2 bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 text-black font-bold rounded-lg hover:from-yellow-400 hover:via-red-400 hover:to-yellow-500 transition-all duration-200 flex items-center gap-2"
+            disabled={isRunning}
+            className="px-4 py-2 bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 text-black font-bold rounded-lg hover:from-yellow-400 hover:via-red-400 hover:to-yellow-500 transition-all duration-200 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Play className="w-4 h-4" />
-            Run
+            {isRunning ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Running...
+              </>
+            ) : (
+              <>
+                <Play className="w-4 h-4" />
+                Run
+              </>
+            )}
           </button>
 
           <button
@@ -1093,11 +1158,48 @@ export default function EditorPage() {
           )}
 
           {}
-          <div className="h-48 bg-gray-900 border-t border-gray-800 p-4">
-            <div className="text-sm font-semibold mb-2">Output</div>
-            <pre className="text-sm font-mono text-gray-300 whitespace-pre-wrap overflow-auto h-full">
-              {output || 'Output will appear here...'}
-            </pre>
+          <div className="h-48 bg-gray-900 border-t border-gray-800 flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b border-gray-800">
+              <div className="flex items-center gap-3">
+                <div className="text-sm font-semibold">Output</div>
+                {executionTime !== null && (
+                  <div className="text-xs text-gray-400">
+                    Executed in {executionTime}s
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                {output && (
+                  <button
+                    onClick={handleCopyOutput}
+                    className="p-1.5 hover:bg-gray-800 rounded transition-colors"
+                    title="Copy output"
+                  >
+                    <Copy className="w-4 h-4 text-gray-400" />
+                  </button>
+                )}
+                {output && (
+                  <button
+                    onClick={handleClearOutput}
+                    className="p-1.5 hover:bg-gray-800 rounded transition-colors"
+                    title="Clear output"
+                  >
+                    <X className="w-4 h-4 text-gray-400" />
+                  </button>
+                )}
+              </div>
+            </div>
+            <div className="flex-1 overflow-auto p-4">
+              <pre className={`text-sm font-mono whitespace-pre-wrap ${
+                output && (output.startsWith('Error:') || output.startsWith('❌'))
+                  ? 'text-red-400'
+                  : output && output.startsWith('✓')
+                  ? 'text-green-400'
+                  : 'text-gray-300'
+              }`}>
+                {output || 'Output will appear here...'}
+              </pre>
+            </div>
           </div>
         </div>
 

@@ -7,7 +7,7 @@ A real-time collaborative code editor platform built with React, TypeScript, and
 - 🔐 **Authentication** - Email/password based authentication (stored locally)
 - 👥 **Real-time Collaboration** - Multiple users can edit code simultaneously via WebSocket
 - 💬 **Live Chat** - Real-time chat within each project
-- 🚀 **Code Execution** - Run Python, JavaScript, and C++ code
+- 🚀 **Code Execution** - Run code in 12+ languages: Python, JavaScript, TypeScript, C, C++, Java, Go, Rust, PHP, Ruby, HTML, CSS
 - 📁 **File Management** - Create, rename, and delete files
 - 🎨 **Dark Theme** - Beautiful dark UI with yellow/red/gold accents
 - 📝 **Syntax Highlighting** - Powered by Monaco Editor
@@ -29,10 +29,19 @@ The backend server handles code execution and WebSocket connections:
 npm run server
 ```
 
-**Note:** For code execution to work, you need:
-- Python installed (for Python execution)
-- Node.js installed (for JavaScript execution)
-- g++ compiler installed (for C++ execution)
+**Note:** For code execution to work, you need the appropriate runtime/compiler installed:
+- **Python**: Python 3.x (https://www.python.org/downloads/)
+- **JavaScript**: Node.js (already installed if you're running this)
+- **TypeScript**: `npm install -g typescript ts-node`
+- **C/C++**: gcc/g++ compiler (Windows: MinGW, Mac: Xcode tools, Linux: `sudo apt-get install g++`)
+- **Java**: JDK (https://adoptium.net/)
+- **Go**: Go compiler (https://go.dev/dl/)
+- **Rust**: Rust toolchain (https://rustup.rs/)
+- **PHP**: PHP interpreter (https://windows.php.net/download/ or `brew install php`)
+- **Ruby**: Ruby interpreter (https://rubyinstaller.org/ or `brew install ruby`)
+- **HTML/CSS**: Validation only (no runtime required)
+
+If a runtime is missing, you'll see helpful installation instructions in the error message.
 
 ### 3. Start the Frontend
 
