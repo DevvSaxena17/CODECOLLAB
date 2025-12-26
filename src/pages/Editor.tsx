@@ -833,7 +833,28 @@ export default function EditorPage() {
   if (!project || !user) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <div>Loading...</div>
+        <div className="flex flex-col items-center gap-8">
+          {/* Animated Spinner */}
+          <div className="relative">
+            <div className="w-24 h-24 border-4 border-gray-800 rounded-full"></div>
+            <div className="w-24 h-24 border-4 border-transparent border-t-yellow-500 border-r-red-500 rounded-full animate-spin absolute top-0 left-0"></div>
+            <div className="w-24 h-24 border-4 border-transparent border-b-yellow-500 border-l-red-500 rounded-full animate-spin-reverse absolute top-0 left-0"></div>
+            {/* Inner pulsing circle */}
+            <div className="absolute inset-4 bg-gradient-to-r from-yellow-500/20 to-red-500/20 rounded-full animate-pulse"></div>
+          </div>
+          
+          {/* Message with animated dots */}
+          <div className="text-center">
+            <h2 className="text-3xl font-semibold bg-gradient-to-r from-yellow-400 via-red-500 to-yellow-600 bg-clip-text text-transparent animate-pulse mb-4">
+              Please Wait... Server is Starting 🚀
+            </h2>
+            <div className="flex items-center justify-center gap-2">
+              <span className="w-3 h-3 bg-yellow-500 rounded-full bounce-delay-1"></span>
+              <span className="w-3 h-3 bg-red-500 rounded-full bounce-delay-2"></span>
+              <span className="w-3 h-3 bg-yellow-500 rounded-full bounce-delay-3"></span>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
