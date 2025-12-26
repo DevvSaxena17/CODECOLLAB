@@ -875,7 +875,7 @@ export default function EditorPage() {
             </div>
             
             {/* Progress bar */}
-            <div className="mt-8 w-64 h-1 bg-gray-800 rounded-full overflow-hidden">
+            <div className="mt-8 w-full max-w-md mx-auto h-1.5 bg-gray-800 rounded-full overflow-hidden">
               <div className="h-full bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-500 rounded-full animate-progress-bar"></div>
             </div>
           </div>
