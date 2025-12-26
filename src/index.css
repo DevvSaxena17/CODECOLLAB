@@ -17,28 +17,28 @@
 
 @keyframes bounce-delay-1 {
   0%, 100% {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-12px) scale(1.2);
   }
 }
 
 @keyframes bounce-delay-2 {
   0%, 100% {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-12px) scale(1.2);
   }
 }
 
 @keyframes bounce-delay-3 {
   0%, 100% {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-12px) scale(1.2);
   }
 }
 
@@ -55,4 +55,151 @@
 .bounce-delay-3 {
   animation: bounce-delay-3 1.4s ease-in-out infinite;
   animation-delay: 0.4s;
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+@keyframes gradient-text {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-text {
+  background-size: 200% auto;
+  animation: gradient-text 3s ease infinite;
+}
+
+@keyframes progress-bar {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-progress-bar {
+  animation: progress-bar 2s ease-in-out infinite;
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out;
+}
+
+/* Floating particles */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.particle-1 {
+  width: 4px;
+  height: 4px;
+  background: rgba(251, 191, 36, 0.6);
+  top: 20%;
+  left: 10%;
+  animation: float 6s ease-in-out infinite;
+}
+
+.particle-2 {
+  width: 3px;
+  height: 3px;
+  background: rgba(239, 68, 68, 0.6);
+  top: 60%;
+  left: 80%;
+  animation: float 8s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.particle-3 {
+  width: 5px;
+  height: 5px;
+  background: rgba(251, 191, 36, 0.4);
+  top: 80%;
+  left: 20%;
+  animation: float 7s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.particle-4 {
+  width: 3px;
+  height: 3px;
+  background: rgba(239, 68, 68, 0.5);
+  top: 30%;
+  left: 70%;
+  animation: float 9s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.particle-5 {
+  width: 4px;
+  height: 4px;
+  background: rgba(251, 191, 36, 0.5);
+  top: 50%;
+  left: 40%;
+  animation: float 6.5s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translateY(-30px) translateX(20px);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-60px) translateX(-10px);
+    opacity: 0.5;
+  }
+  75% {
+    transform: translateY(-30px) translateX(-20px);
+    opacity: 0.7;
+  }
 }

@@ -832,26 +832,51 @@ export default function EditorPage() {
 
   if (!project || !user) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <div className="flex flex-col items-center gap-8">
-          {/* Animated Spinner */}
+      <div className="min-h-screen bg-black text-white flex items-center justify-center relative overflow-hidden">
+        {/* Animated background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-900/10 via-red-900/10 to-yellow-900/10 animate-gradient-shift"></div>
+        
+        {/* Floating particles */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="particle particle-1"></div>
+          <div className="particle particle-2"></div>
+          <div className="particle particle-3"></div>
+          <div className="particle particle-4"></div>
+          <div className="particle particle-5"></div>
+        </div>
+
+        <div className="flex flex-col items-center gap-8 relative z-10 animate-fade-in">
+          {/* Enhanced Animated Spinner */}
           <div className="relative">
-            <div className="w-24 h-24 border-4 border-gray-800 rounded-full"></div>
-            <div className="w-24 h-24 border-4 border-transparent border-t-yellow-500 border-r-red-500 rounded-full animate-spin absolute top-0 left-0"></div>
-            <div className="w-24 h-24 border-4 border-transparent border-b-yellow-500 border-l-red-500 rounded-full animate-spin-reverse absolute top-0 left-0"></div>
-            {/* Inner pulsing circle */}
-            <div className="absolute inset-4 bg-gradient-to-r from-yellow-500/20 to-red-500/20 rounded-full animate-pulse"></div>
+            {/* Outer glow */}
+            <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/30 via-red-500/30 to-yellow-500/30 rounded-full blur-xl animate-pulse"></div>
+            
+            {/* Spinner layers */}
+            <div className="w-28 h-28 border-4 border-gray-800 rounded-full relative"></div>
+            <div className="w-28 h-28 border-4 border-transparent border-t-yellow-500 border-r-red-500 rounded-full animate-spin absolute top-0 left-0 shadow-lg shadow-yellow-500/50"></div>
+            <div className="w-28 h-28 border-4 border-transparent border-b-yellow-500 border-l-red-500 rounded-full animate-spin-reverse absolute top-0 left-0 shadow-lg shadow-red-500/50"></div>
+            
+            {/* Inner pulsing circle with glow */}
+            <div className="absolute inset-5 bg-gradient-to-r from-yellow-500/20 via-red-500/20 to-yellow-500/20 rounded-full animate-pulse"></div>
+            <div className="absolute inset-6 bg-gradient-to-r from-yellow-500/10 to-red-500/10 rounded-full animate-pulse-slow"></div>
           </div>
           
-          {/* Message with animated dots */}
+          {/* Message with enhanced animations */}
           <div className="text-center">
-            <h2 className="text-3xl font-semibold bg-gradient-to-r from-yellow-400 via-red-500 to-yellow-600 bg-clip-text text-transparent animate-pulse mb-4">
-              Please Wait... Server is Starting 🚀
+            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-yellow-400 via-red-500 to-yellow-600 bg-clip-text text-transparent animate-gradient-text mb-6 drop-shadow-lg">
+              Please Wait... Server is Starting
             </h2>
-            <div className="flex items-center justify-center gap-2">
-              <span className="w-3 h-3 bg-yellow-500 rounded-full bounce-delay-1"></span>
-              <span className="w-3 h-3 bg-red-500 rounded-full bounce-delay-2"></span>
-              <span className="w-3 h-3 bg-yellow-500 rounded-full bounce-delay-3"></span>
+            
+            {/* Enhanced bouncing dots */}
+            <div className="flex items-center justify-center gap-3">
+              <span className="w-4 h-4 bg-gradient-to-r from-yellow-500 to-yellow-400 rounded-full bounce-delay-1 shadow-lg shadow-yellow-500/50"></span>
+              <span className="w-4 h-4 bg-gradient-to-r from-red-500 to-red-400 rounded-full bounce-delay-2 shadow-lg shadow-red-500/50"></span>
+              <span className="w-4 h-4 bg-gradient-to-r from-yellow-500 to-yellow-400 rounded-full bounce-delay-3 shadow-lg shadow-yellow-500/50"></span>
+            </div>
+            
+            {/* Progress bar */}
+            <div className="mt-8 w-64 h-1 bg-gray-800 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-500 rounded-full animate-progress-bar"></div>
             </div>
           </div>
         </div>
